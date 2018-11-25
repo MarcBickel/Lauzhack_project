@@ -11,6 +11,7 @@ data_2016 = pd.read_csv('./data/data_tibo.csv',index_col='customer',encoding='ut
 
 @app.route("/", methods=['GET'])
 def get_list():
+
 	#offset = int(request.args.get('offset'))
 	#number = int(request.args.get('number'))
 	
@@ -29,12 +30,14 @@ def get_list():
 	df_test_under = df_test_under.sample(frac=1)
 	data = df_test_under[offset:][:number]
 	
+
 	json_resp = []
-	
+
 	for i, row in data.iterrows():
 		json_resp.append({'customer': i, 'turnover': row['turnover'],'inactive_days_average': row['inactive_days_average'],'channel_risk': row['channel_risk'], 'age': row['age'],'true_value': row['true_value'], 'probability': row['probability']})
 	
 	ret = make_response(json.dumps(json_resp))
+
 	ret.status_code = 200
 	ret.headers['Access-Control-Allow-Origin'] = '*'
 	print(ret)
